@@ -16,6 +16,15 @@ previous_display_interval_file_last_modified = None
 display_interval = 5
 
 
+def error_page(message = ''):
+	return {
+		'first_line_text': '>ERROR',
+		'first_line_color': 'Wrrrrrr',
+		'second_line_text': message,
+		'second_line_color': 'rrrrrrrrrrrrrrrrrrrrr'
+	}
+
+
 def read_from_display_file(display_file_path):
 
 	# Read all non-empty lines from file
@@ -25,11 +34,12 @@ def read_from_display_file(display_file_path):
 			lines = [line for line in fin.readlines() if line.strip() != '']
 	except:
 		print 'Failed to read from display file.'
+		return None
 
 	# Invalid file, wrong number of non-empty lines
 	if len(lines) % 4 != 0:
 		print 'Invalid display file format: wrong number of non-empty lines.'
-		return []
+		return None
 
 	# Convert lines to list of pages
 	pages = []
@@ -46,14 +56,20 @@ def read_from_display_file(display_file_path):
 
 
 def read_from_display_interval_file(display_interval_file_path):
-	display_interval = 5
 	try:
 		with open(display_interval_file_path, 'r') as fin:
 			lines = [line for line in fin.readlines() if line.strip() != '']
-		display_interval = int(lines[0].strip())
+		disp_interval = int(lines[0].strip())
+
+		if disp_interval <= 0.1:
+			print 'Invalid display interval value: value too low.'
+			return None
+
+		return disp_interval
+
 	except:
 		print 'Invalid display interval file.'
-	return display_interval
+		return None
 
 
 # Thread which updates pages if the display or display interval file is modified
@@ -108,13 +124,25 @@ if __name__ == "__main__":
 	print 'Displaying pages...'
 	current_page_index = 0
 	while True:
-		page_count = len(pages)
-		if current_page_index < page_count and page_count > 0:
-			display.show_page(pages[current_page_index])
-			current_page_index = (current_page_index + 1) % page_count
+		if pages == None:
+			display.show_page(error_page('Invalid display text'))
+		elif len(pages) == 0:
+			display.show_page(error_page('No display text'))
+		elif display_interval == None:
+			display.show_page(error_page('Invalid interval'))
 		else:
-			current_page_index = 0
-		time.sleep(display_interval)
+			page_count = len(pages)
+			if current_page_index < page_count and page_count > 0:
+				display.show_page(pages[current_page_index])
+				current_page_index = (current_page_index + 1) % page_count
+			else:
+				current_page_index = 0
+
+		if display_interval == None:
+			time.sleep(1)
+		else:
+			time.sleep(display_interval)
+
 
 
 

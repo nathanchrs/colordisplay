@@ -9,7 +9,6 @@ from modbus_tk import modbus_rtu
 from modbus_tk.modbus import ModbusError
 
 COLOR_MAP = {
-	'k': 0,		# Black
 	'r': 256, 	# Red
 	'g': 512,	# Green
 	'y': 768,	# Yellow
