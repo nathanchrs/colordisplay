@@ -46,3 +46,8 @@ def read_from_display_interval_file(display_interval_file_path):
 	except:
 		print 'Invalid display interval file.'
 		return None
+
+def save_display_interval_to_file(display_interval_file_path, display_interval):
+	"""Saves the display interval value to file."""
+	with open(display_interval_file_path, 'w') as fout:
+		fout.write(display_interval)

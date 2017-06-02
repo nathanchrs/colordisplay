@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+{% block body %}
+
+  <h1>Display Text &amp; Colors</h1>
+
+  <form action="display" method="post">
+    <div>
+      <label for="first_line_text">Line 1 text</label>
+      <input type="text" name="first_line_text" />
+    </div>
+
+    <div>
+      <label for="first_line_color">Line 1 colors</label>
+      <input type="text" name="first_line_color" />
+    </div>
+
+    <div>
+      <label for="second_line_text">Line 2 text</label>
+      <input type="text" name="second_line_text" />
+    </div>
+
+    <div>
+      <label for="first_line_color">Line 2 colors</label>
+      <input type="text" name="first_line_color" />
+    </div>
+
+    <input type="submit" value="Save" />
+  </form>
+
+  <form action="interval" method="post">
+    <div>
+      <label for="display_interval">Display interval (seconds)</label>
+      <input type="number" name="display_interval" min="1" value="{{ display_interval }}" />
+    </div>
+
+    <input type="submit" value="Save" />
+  </form>
+
+{% endblock %}
