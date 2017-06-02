@@ -1,2 +1,5 @@
+Flask==0.12.2
+gunicorn==19.7.1
+Jinja2==2.9.6
 modbus-tk==0.5.4
 pyserial==3.1

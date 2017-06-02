@@ -1,4 +1,4 @@
-# Configuration file for display
+# Variables: requires program restart to take effect
 
 # Path of the display text file
 DISPLAY_FILE_PATH = 'config/display.txt'
