@@ -1,2 +1,2 @@
-MinimalModbus==0.7
-
+modbus-tk==0.5.4
+pyserial==3.1
