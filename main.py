@@ -17,6 +17,7 @@ display_interval = 5
 
 
 def error_page(message = ''):
+	"""Returns an error page with the specified message."""
 	return {
 		'first_line_text': '>ERROR',
 		'first_line_color': 'Wrrrrrr',
@@ -26,6 +27,7 @@ def error_page(message = ''):
 
 
 def read_from_display_file(display_file_path):
+	"""Reads and returns a list of pages from the display file."""
 
 	# Read all non-empty lines from file
 	lines = []
@@ -56,13 +58,15 @@ def read_from_display_file(display_file_path):
 
 
 def read_from_display_interval_file(display_interval_file_path):
+	"""Reads and returns an integer value from the display interval file."""
+
 	try:
 		with open(display_interval_file_path, 'r') as fin:
 			lines = [line for line in fin.readlines() if line.strip() != '']
 		disp_interval = int(lines[0].strip())
 
-		if disp_interval <= 0.1:
-			print 'Invalid display interval value: value too low.'
+		if disp_interval < 1:
+			print 'Invalid display interval value.'
 			return None
 
 		return disp_interval
@@ -72,8 +76,9 @@ def read_from_display_interval_file(display_interval_file_path):
 		return None
 
 
-# Thread which updates pages if the display or display interval file is modified
 def display_file_check_thread():
+	"""Thread which updates pages if the display or display interval file is modified."""
+
 	global pages
 	global display_interval
 	global previous_display_file_last_modified
@@ -142,9 +147,3 @@ if __name__ == "__main__":
 			time.sleep(1)
 		else:
 			time.sleep(display_interval)
-
-
-
-
-
-

@@ -1,4 +1,4 @@
-# Driver for Color Display Module
+# Driver for Onguards Dot Matrix Display DSP16128
 # Serial configuration: 8/N/1
 # Data format: Modbus RTU
 
@@ -28,14 +28,15 @@ DEVICE_TIMEOUT = 1.0
 
 
 class ColorDisplay:
-	"""Instrument class for LED Color Display Module.
+	"""Instrument class for Onguards Dot Matrix Display DSP16128.
 
 	Args:
 		* device (str): device port name
 		* device_address (int): device slave address (between 1 to 31)
+		* baud_rate: device serial baud rate
 	"""
 
-	def __init__(self, device, device_address, baud_rate):
+	def __init__(self, device, device_address, baud_rate = 9600):
 		self.device = modbus_rtu.RtuMaster(
 			serial.Serial(port=device, baudrate=baud_rate, bytesize=8, parity='N', stopbits=1, xonxoff=0)
 		)
@@ -45,6 +46,19 @@ class ColorDisplay:
 
 	
 	def show_page(self, page):
+		"""Shows a page on the display.
+		
+		Args:
+			* page (dict): a dict with the following keys:
+				- first_line_text (str): Text for the first line
+				- first_line_color (str): Colors for the first line, with each character corresponding to the line's text
+				- second_line_text (str): Text for the second line
+				- second_line_color (str): Colors for the second line, with each character corresponding to the line's text
+
+		Use the values in COLOR_MAP for the color strings.
+		Uppercase letters in the color strings will set the corresponding character to blink.
+		Unknown characters in the color strings will cause the corresponding character to be set to black (not visible).
+		"""
 
 		line_1_data = convert_line_to_data(page['first_line_text'], page['first_line_color'])
 		line_2_data = convert_line_to_data(page['second_line_text'], page['second_line_color'])
