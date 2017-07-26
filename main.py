@@ -38,24 +38,38 @@ def display_file_check_thread():
 	while True:
 
 		# Check display file
-		display_file_last_modified = os.stat(DISPLAY_FILE_PATH).st_mtime
-		if previous_display_file_last_modified != display_file_last_modified:
-			if previous_display_file_last_modified == None:
-				print 'Loading display file...'
-			else:
-				print 'Display file modified, reloading...'
-			pages = config_io.read_from_display_file(DISPLAY_FILE_PATH)
-			previous_display_file_last_modified = display_file_last_modified
+		display_file_last_modified = None
+		try:
+			display_file_last_modified = os.stat(DISPLAY_FILE_PATH).st_mtime
+		except:
+			print 'Display file not found or not accessible.'
+			pages = []
+
+		if display_file_last_modified != None:
+			if previous_display_file_last_modified != display_file_last_modified:
+				if previous_display_file_last_modified == None:
+					print 'Loading display file...'
+				else:
+					print 'Display file modified, reloading...'
+				pages = config_io.read_from_display_file(DISPLAY_FILE_PATH)
+				previous_display_file_last_modified = display_file_last_modified
 
 		# Check display interval file
-		display_interval_file_last_modified = os.stat(DISPLAY_INTERVAL_FILE_PATH).st_mtime
-		if previous_display_interval_file_last_modified != display_interval_file_last_modified:
-			if previous_display_interval_file_last_modified == None:
-				print 'Loading display interval file...'
-			else:
-				print 'Display interval file modified, reloading...'
-			display_interval = config_io.read_from_display_interval_file(DISPLAY_INTERVAL_FILE_PATH)
-			previous_display_interval_file_last_modified = display_interval_file_last_modified
+		display_interval_file_last_modified = None
+		try:
+			display_interval_file_last_modified = os.stat(DISPLAY_INTERVAL_FILE_PATH).st_mtime
+		except:
+			print 'Display interval file not found or not accessible.'
+			display_interval = None
+
+		if display_interval_file_last_modified != None:
+			if previous_display_interval_file_last_modified != display_interval_file_last_modified:
+				if previous_display_interval_file_last_modified == None:
+					print 'Loading display interval file...'
+				else:
+					print 'Display interval file modified, reloading...'
+				display_interval = config_io.read_from_display_interval_file(DISPLAY_INTERVAL_FILE_PATH)
+				previous_display_interval_file_last_modified = display_interval_file_last_modified
 
 		time.sleep(FILE_CHECK_INTERVAL)
 
@@ -95,6 +109,6 @@ if __name__ == "__main__":
 				current_page_index = 0
 
 		if display_interval == None:
-			time.sleep(1)
+			time.sleep(5)
 		else:
 			time.sleep(display_interval)
