@@ -14,7 +14,8 @@
 	font-size: 28px;
 	line-height: 1;
 	color: white;
-	background-color: #111;
+	font-weight: bold;
+	background-color: #000000;
 	display: table;
 	padding: 5px;
 	border-radius: 3px;
@@ -26,7 +27,18 @@
 
 .display-preview .display-char {
 	display: table-cell;
-	padding: 3px 0 0 3px;
+	padding: 6px 0 0 3px;
+}
+
+.blink {
+	animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+	0% { opacity: 1; }
+	40% { opacity: 1; }
+	50% { opacity: 0; }
+	90% { opacity: 0; }
 }
 
 @media(max-width: 511px) {
